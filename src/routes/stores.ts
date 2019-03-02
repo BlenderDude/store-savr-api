@@ -43,6 +43,20 @@ router.post("/update", async (req, res) => {
   res.send({ success: true });
 });
 
+router.post("/store_layout", async (req, res) => {
+  const { id, storeLayout } = req.body;
+
+  const { userId } = req;
+
+  await query("UPDATE stores SET store_layout=$1 WHERE id=$2 AND user_id=$3", [
+    storeLayout,
+    id,
+    userId
+  ]);
+
+  res.send({ success: true });
+});
+
 router.post("/delete", async (req, res) => {
   const { id } = req.body;
 
