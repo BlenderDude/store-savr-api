@@ -1,0 +1,20 @@
+{
+  "name": "store-savr-api",
+  "version": "1.0.0",
+  "dependencies": {
+    "@types/pg": "^7.4.13",
+    "bcrypt": "^3.0.4",
+    "express": "^4.16.4",
+    "pg": "^7.8.1"
+  },
+  "scripts": {
+    "start": "export $(grep -v '^#' .env | xargs) && npx ts-node ./src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/express": "^4.16.1",
+    "@types/node": "^11.10.4",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.3333"
+  }
+}
