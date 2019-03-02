@@ -1,0 +1,24 @@
+stages:
+    - name: Build
+      when:
+          branch: master
+          event: [push, pull_request]
+      steps:
+          - runScriptConfig:
+                image: node:lts
+                shellScript: |-
+                    npm install -g yarn
+                    yarn install
+                    npx tsc -p tsconfig.json
+    - name: Publish Image
+      steps:
+          - publishImageConfig:
+                dockerfilePath: ./Dockerfile
+                buildContext: .
+                tag: store-savr-api:${CICD_EXECUTION_SEQUENCE}
+            env:
+                PLUGIN_DEBUG: "true"
+    - name: Deploy
+      steps:
+          - applyYamlConfig:
+                path: ./deployment.yml

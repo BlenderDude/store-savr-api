@@ -1,0 +1,47 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: api
+    namespace: store-savr
+spec:
+    selector:
+        app: api
+    type: ClusterIP
+    ports:
+        - name: default
+          port: 3000
+          protocol: TCP
+          targetPort: 3000
+    clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: api
+    namespace: snowcast
+    labels:
+        app: api
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: api
+    template:
+        metadata:
+            labels:
+                app: api
+        spec:
+            imagePullSecrets:
+                - name: pipeline-docker-registry
+            containers:
+                - env:
+                      - name: NODE_ENV
+                        value: production
+                  envFrom:
+                      - secretRef:
+                            name: api
+                            optional: false
+                  name: store-savr-api
+                  image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+                  ports:
+                      - containerPort: 3000

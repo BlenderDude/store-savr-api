@@ -53,6 +53,15 @@ router.post("/login", async (req, res) => {
     }
 });
 
-router.post("/profile", (req, res) => {});
+router.post("/profile", requireAuth, async (req, res) => {
+    const { userId } = req;
+
+    const result = await query(
+        "SELECT id,first_name,last_name,username FROM users WHERE id=$1",
+        [userId]
+    );
+
+    res.send(result.rows[0]);
+});
 
 export default router;

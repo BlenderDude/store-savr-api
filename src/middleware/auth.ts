@@ -50,7 +50,7 @@ export const requireAuth = (
     res: Express.Response,
     next: () => void
 ) => {
-    if (req.userId) {
+    if (req.userId !== undefined && req.userId !== null) {
         next();
     } else {
         res.send({
