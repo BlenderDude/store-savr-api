@@ -2,7 +2,7 @@ stages:
     - name: Build
       when:
           branch: master
-          event: [push, pull_request]
+          event: [push]
       steps:
           - runScriptConfig:
                 image: node:lts
