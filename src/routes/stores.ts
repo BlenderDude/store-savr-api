@@ -7,7 +7,9 @@ const router = Router({});
 router.post("/get", async (req, res) => {
   const { id } = req.body;
 
-  const result = await query("SELECT id,address,name WHERE id=$1", [id]);
+  const result = await query("SELECT id,address,name FROM stores WHERE id=$1", [
+    id
+  ]);
 
   const store = result.rows[0];
 
