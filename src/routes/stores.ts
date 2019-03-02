@@ -1,42 +1,54 @@
 import { Router } from "express";
 import { query } from "../db/connection";
+import { requireAuth } from "../middleware/auth";
 
 const router = Router({});
 
 router.post("/get", async (req, res) => {
-    const { id } = req.body;
+  const { id } = req.body;
 
-    const result = await query("SELECT id,address,name WHERE id=$1", [id]);
+  const result = await query("SELECT id,address,name WHERE id=$1", [id]);
 
-    const store = result.rows[0];
+  const store = result.rows[0];
 
-    res.send(store);
+  res.send(store);
 });
 
-router.post("/create", async (req, res) => {
-    const { name,address } = req.body;
+router.post("/create", requireAuth, async (req, res) => {
+  const { name, address } = req.body;
+  const { userId } = req;
 
-    const result = await query("INSERT INTO stores (name,address) VALUES ($1,$2) RETURNING id", [name,address])
+  const result = await query(
+    "INSERT INTO stores (name,address,user_id) VALUES ($1,$2,$3) RETURNING id",
+    [name, address, userId]
+  );
 
-    const id = result.rows[0].id;
+  const id = result.rows[0].id;
 
-    res.send({id});
+  res.send({ id });
 });
 
 router.post("/update", async (req, res) => {
-    const { id,name,address } = req.body;
-  
-    await query("UPDATE stores SET name=$1,address WHERE id=$1", [name,address,id]);
+  const { id, name, address } = req.body;
 
-    res.send({success: true});
+  const { userId } = req;
+
+  await query(
+    "UPDATE stores SET name=$1,address=$2 WHERE id=$3 AND user_id=$4",
+    [name, address, id, userId]
+  );
+
+  res.send({ success: true });
 });
 
 router.post("/delete", async (req, res) => {
-    const { id } = req.body;
+  const { id } = req.body;
 
-    await query("DELETE FROM stores WHERE id=$1", [id]);
+  const { userId } = req;
 
-    res.send({success: true});
+  await query("DELETE FROM stores WHERE id=$1 AND  user_id=$2", [id, userId]);
+
+  res.send({ success: true });
 });
 
 export default router;
