@@ -11,7 +11,7 @@
     "pg": "^7.8.1"
   },
   "scripts": {
-    "start": "export $(grep -v '^#' .env | xargs) && npx ts-node ./src/index.ts",
+    "start": "export $(grep -v '^#' .env | xargs) && node ./dist/index.js",
     "dev": "./node_modules/nodemon/bin/nodemon.js",
     "dev-start": "export $(grep -v '^#' .env | xargs) && ts-node src/index.ts"
   },
