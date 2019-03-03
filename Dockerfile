@@ -6,8 +6,7 @@ RUN apk add --no-cache --virtual .gyp \
     python \
     make \
     g++ \
-    && npm install --production --silent && mv node_modules ../\
-    && apk del .gyp
+    && npm install --production --silent && mv node_modules ../
 COPY . .
 EXPOSE 3000
 CMD npm start
