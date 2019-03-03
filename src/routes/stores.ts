@@ -11,12 +11,12 @@ router.post("/get_all", async (req, res) => {
 
     if (userId) {
         result = await query(
-            "SELECT id,address,name FROM stores WHERE user_id=$1 ORDER BY name ASC",
+            "SELECT id,address,name,store_layout FROM stores WHERE user_id=$1 ORDER BY name ASC",
             [userId]
         );
     } else {
         result = await query(
-            "SELECT id,address,name FROM stores ORDER BY name ASC"
+            "SELECT id,address,name,store_layout FROM stores ORDER BY name ASC"
         );
     }
 
@@ -27,7 +27,7 @@ router.post("/get", async (req, res) => {
     const { id } = req.body;
 
     const result = await query(
-        "SELECT id,address,name FROM stores WHERE id=$1",
+        "SELECT id,address,name,store_layout FROM stores WHERE id=$1",
         [id]
     );
 
