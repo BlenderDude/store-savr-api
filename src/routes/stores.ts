@@ -4,6 +4,25 @@ import { requireAuth } from "../middleware/auth";
 
 const router = Router({});
 
+router.post("/get_all", async (req, res) => {
+    const { userId } = req;
+
+    let result;
+
+    if (userId) {
+        result = await query(
+            "SELECT id,address,name FROM stores WHERE user_id=$1 ORDER BY name ASC",
+            [userId]
+        );
+    } else {
+        result = await query(
+            "SELECT id,address,name FROM stores ORDER BY name ASC"
+        );
+    }
+
+    res.send(result.rows);
+});
+
 router.post("/get", async (req, res) => {
     const { id } = req.body;
 
