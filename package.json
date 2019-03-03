@@ -8,7 +8,8 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.0",
-    "pg": "^7.8.1"
+    "pg": "^7.8.1",
+    "typescript": "^3.3.3333"
   },
   "scripts": {
     "start": "export $(grep -v '^#' .env | xargs) && npx ts-node ./src/index.ts",
@@ -23,7 +24,6 @@
     "@types/jsonwebtoken": "^8.3.0",
     "@types/node": "^11.10.4",
     "nodemon": "^1.18.10",
-    "ts-node": "^8.0.2",
-    "typescript": "^3.3.3333"
+    "ts-node": "^8.0.2"
   }
 }
