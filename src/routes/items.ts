@@ -4,6 +4,28 @@ import { requireAuth } from "../middleware/auth";
 
 const router = Router({});
 
+router.post("/get_all", requireAuth, async (req, res) => {
+    const { userId } = req;
+
+    const result = await query(
+        "SELECT id,name,price,picture,stock FROM items WHERE user_id=$1",
+        [userId]
+    );
+
+    res.send(result.rows);
+});
+
+router.post("/get_with_store_id", async (req, res) => {
+    const { storeId } = req.body;
+
+    const result = await query(
+        "SELECT id,name,price,picture,stock FROM items WHERE id IN (SELECT item_id FROM item_stores WHERE store_id=$1)",
+        [storeId]
+    );
+
+    res.send(result.rows);
+});
+
 router.post("/get", async (req, res) => {
     const { id } = req.body;
 
